@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Las Recetas de la Abuela — Marketplace</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Logo Abuela" class="logo"/>
+      <h1>Las Recetas de la Abuela</h1>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Catálogo</a>
+      <a href="subir-producto.html">Subir producto</a>
+      <a href="carrito.html" id="carrito-link">Carrito (<span id="cart-count">0</span>)</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h2>Sabor casero en cada producto</h2>
+      <p>Encuentra delicias, recetas tradicionales y productos artesanales inspirados en la cocina de la abuela.</p>
+      <a href="#catalogo" class="cta">Ver catálogo</a>
+    </section>
+
+    <section id="catalogo" class="catalog">
+      <!-- Productos renderizados aquí -->
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="anio"></span> Las Recetas de la Abuela — Proyecto universitario</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
