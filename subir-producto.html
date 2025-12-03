@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Subir producto — Las Recetas de la Abuela</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <img src="../assets/logo.png" alt="Logo" class="logo"/>
+      <h1>Subir producto</h1>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Catálogo</a>
+      <a href="subir-producto.html">Subir producto</a>
+      <a href="carrito.html">Carrito</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="card" style="max-width:720px;margin:0 auto">
+      <h2>Agregar nuevo producto</h2>
+      <p>Llena los campos y el producto aparecerá en el catálogo (guardado en tu navegador).</p>
+
+      <form id="uploadForm">
+        <div style="display:flex;gap:12px;flex-direction:column">
+          <label>
+            Nombre
+            <input required id="p-title" name="title" placeholder="Ej: Alfajores caseros" />
+          </label>
+          <label>
+            Precio (COP)
+            <input required id="p-price" name="price" type="number" step="0.01" placeholder="5.00" />
+          </label>
+          <label>
+            Descripción
+            <textarea id="p-desc" name="desc" rows="3" placeholder="Breve descripción"></textarea>
+          </label>
+          <label>
+            Imagen (URL) — o deja vacío para usar una imagen por defecto
+            <input id="p-img" name="img" placeholder="https://..." />
+          </label>
+          <div style="display:flex;gap:10px;align-items:center">
+            <button type="submit" class="btn btn-primary">Subir producto</button>
+            <button type="button" id="resetBtn" class="btn btn-ghost">Restablecer catálogo</button>
+          </div>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Hecho con cariño — Las Recetas de la Abuela</p>
+  </footer>
+
+  <script>
+    // pequeño script para administrar subida de producto (usa mismos storage keys que app.js)
+    const PRODUCTS_KEY = 'productos_abuelita';
+
+    function loadProducts(){ 
+      const raw = localStorage.getItem(PRODUCTS_KEY);
+      if(!raw) return null;
+      try { return JSON.parse(raw) } catch { return null }
+    }
+    function saveProducts(arr){ localStorage.setItem(PRODUCTS_KEY, JSON.stringify(arr)) }
+
+    document.getElementById('uploadForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const title = document.getElementById('p-title').value.trim();
+      const price = parseFloat(document.getElementById('p-price').value);
+      const desc = document.getElementById('p-desc').value.trim();
+      let img = document.getElementById('p-img').value.trim();
+
+      if(!img){
+        img = 'assets/default.jpg';
+      }
+
+      const current = loadProducts() || [];
+      const newProd = {
+        id: 'u' + Date.now().toString(36),
+        title, price: isNaN(price) ? 0 : price,
+        desc, img
+      };
+
+      current.unshift(newProd);
+      saveProducts(current);
+      // feedback y redirección
+      alert('Producto subido correctamente. Serás redirigido al catálogo.');
+      window.location.href = 'index.html';
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', ()=>{
+      if(confirm('Esto restaurará el catálogo inicial y eliminará los productos que añadiste. ¿Continuar?')){
+        localStorage.removeItem(PRODUCTS_KEY);
+        alert('Catálogo restablecido. Volviendo al catálogo.');
+        window.location.href='index.html';
+      }
+    });
+  </script>
+</body>
+</html>
